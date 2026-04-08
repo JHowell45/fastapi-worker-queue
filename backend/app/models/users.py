@@ -1,11 +1,18 @@
 from datetime import datetime, timezone
+from random import uniform
 from typing import Any
 
+from faker import Faker
 from pgvector.sqlalchemy import VECTOR
 from sqlalchemy.sql import func
 from sqlmodel import DateTime, Field, SQLModel
 
 EMBEDDING_SIZE: int = 500
+faker = Faker()
+
+
+def generate_random_embedding() -> list[float]:
+    return [uniform(-1, 1) for _ in range(EMBEDDING_SIZE)]
 
 
 class User(SQLModel):
@@ -27,3 +34,7 @@ class User(SQLModel):
         },
         nullable=False,
     )
+
+
+def create_random_user() -> User:
+    return User(name=faker.name(), embedding=generate_random_embedding())
