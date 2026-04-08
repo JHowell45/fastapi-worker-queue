@@ -59,8 +59,8 @@ logs:
 
 [group("db")]
 create-migration msg:
-    docker-compose exec app1 alembic revision --autogenerate -m "{{ msg }}"
+    docker-compose exec app alembic revision --autogenerate -m "{{ msg }}"
 
 [group("db")]
 upgrade-migration:
-    docker-compose exec app1 alembic upgrade head
+    docker-compose exec app alembic upgrade head
