@@ -41,3 +41,7 @@ class Settings(BaseSettings):
             password=self.RABBITMQ_PASSWORD,
             vhost=self.RABBITMQ_VHOST,
         )
+
+
+def get_settings() -> Settings:
+    return Settings()

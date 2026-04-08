@@ -4,14 +4,14 @@ services:
     volumes:
       - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
-      app1:
+      app:
         condition: service_healthy
         restart: true
     ports:
       - "80:80"
     networks:
       - fastapi-jobs-net
-  app1:
+  app:
     build:
       context: ./backend
       dockerfile: Dockerfile
