@@ -7,7 +7,7 @@ from app.deps.db import SessionDep
 from app.jobs.users import create_random_bulk_users_task, create_random_user_task
 from app.models.users import User, create_random_user
 from app.requests.users import BulkRandomUserRequest
-from app.responses.users import UserPublic
+from app.responses.users import TaskResponse, UserPublic
 
 router = APIRouter(prefix="/users")
 
@@ -26,13 +26,15 @@ async def create_random_user_route(session: SessionDep):
     return user
 
 
-@router.post("/create/random/task")
-async def create_random_user_job_route(session: SessionDep):
+@router.post("/create/random/task", response_model=TaskResponse)
+async def create_random_user_job_route(session: SessionDep) -> TaskResponse:
     create_random_user_task.delay()
+    return TaskResponse(ok=True)
 
 
-@router.post("/create/random/task/bulk")
+@router.post("/create/random/task/bulk", response_model=TaskResponse)
 async def create_bulk_random_user_job_route(
     session: SessionDep, requests: BulkRandomUserRequest
-):
+) -> TaskResponse:
     create_random_bulk_users_task.delay(requests.amount)
+    return TaskResponse(ok=True)

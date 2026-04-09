@@ -4,3 +4,7 @@ from pydantic import BaseModel
 class UserPublic(BaseModel):
     id: int
     name: str
+
+
+class TaskResponse(BaseModel):
+    ok: bool
