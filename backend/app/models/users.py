@@ -15,7 +15,7 @@ def generate_random_embedding() -> list[float]:
     return [uniform(-1, 1) for _ in range(EMBEDDING_SIZE)]
 
 
-class User(SQLModel):
+class User(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     name: str
     embedding: Any = Field(sa_type=VECTOR(EMBEDDING_SIZE))
