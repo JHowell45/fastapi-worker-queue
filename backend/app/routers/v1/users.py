@@ -13,12 +13,12 @@ router = APIRouter(prefix="/users")
 
 
 @router.get("/", response_model=list[UserPublic])
-def get_users(session: SessionDep) -> Sequence[User]:
+async def get_users(session: SessionDep) -> Sequence[User]:
     return session.exec(select(User).limit(20).offset(0)).all()
 
 
 @router.post("/create/random")
-def create_random_user_route(session: SessionDep):
+async def create_random_user_route(session: SessionDep):
     user = create_random_user()
     session.add(user)
     session.commit()
@@ -27,12 +27,12 @@ def create_random_user_route(session: SessionDep):
 
 
 @router.post("/create/random/task")
-def create_random_user_job_route(session: SessionDep):
+async def create_random_user_job_route(session: SessionDep):
     create_random_user_task.delay()
 
 
 @router.post("/create/random/task/bulk")
-def create_bulk_random_user_job_route(
+async def create_bulk_random_user_job_route(
     session: SessionDep, requests: BulkRandomUserRequest
 ):
     create_random_bulk_users_task.delay(requests.amount)
